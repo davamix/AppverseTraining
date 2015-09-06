@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<div class="container" scrolly-scroll>
+    <div class="well">
+        <p class="lead">
+            todo
+        </p>
+        <p class="pull-left">&nbsp;&nbsp;{{name}}</p>
+        <div class="clearfix"></div>
+        
+        <ul>
+            <li ng-repeat="item in TaskList">
+                <span>{{item.id}}</span>
+                <span>{{item.description}}</span>
+            </li>                  
+        </ul>
+    </div>
+</div>
