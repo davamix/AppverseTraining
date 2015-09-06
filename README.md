@@ -2,4 +2,4 @@
 
 Sample code of Appverse training course I did.
 
-There are examples using Appverse https://github.com/Appverse
+There are examples using Appverse Web http://appverse.org
