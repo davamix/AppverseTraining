@@ -1,6 +1,6 @@
 # Appverse Training
 
-Sample code of Appverse training course I did.
+Sample code of Appverse training course I attended.
 
 There are examples using Appverse Web http://appverse.org
 
