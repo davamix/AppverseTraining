@@ -2,16 +2,48 @@
 <div class="container" scrolly-scroll>
     <div class="well">
         <p class="lead">
-            todo
+            {{name}} list
         </p>
-        <p class="pull-left">&nbsp;&nbsp;{{name}}</p>
+        
         <div class="clearfix"></div>
         
-        <ul>
-            <li ng-repeat="item in TaskList">
-                <span>{{item.id}}</span>
-                <span>{{item.description}}</span>
-            </li>                  
-        </ul>
+        <div class="row">
+            <div class="col-lg-8">
+                
+                <!--<ul class="list-group">-->
+                <ul>
+                    <li class="list-group-item" ng-repeat="item in TaskList">
+                        <span>{{item.description}}</span>
+                        <!--pull-right has a bug https://github.com/FortAwesome/Font-Awesome/issues/1905-->
+                        <button class="btn btn-xs btn-danger glyphicon glyphicon-remove pull-right" type="button" />
+                        <button class="btn btn-xs btn-default glyphicon glyphicon-edit pull-right" type="button" />
+                        
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-4">
+                <form>
+                    <fieldset>
+                        <legend>Details</legend>
+                        
+                        <div class="form-group">
+                            <label class="control-label" for="txtTaskId">Id</label>
+                            <input class="form-control" id="txtTaskId" type="text" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label" for="txtTaskDescription">Description</label>
+                            <input class="form-control" id="txtTaskDescription" type="text" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <button class="btn btn-md btn-success glyphicon glyphicon-save pull-right" type="button"> Save</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        
+        </div>
     </div>
 </div>
