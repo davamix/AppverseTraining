@@ -15,8 +15,8 @@
                     <li class="list-group-item" ng-repeat="item in TaskList">
                         <span>{{item.description}}</span>
                         <!--pull-right has a bug https://github.com/FortAwesome/Font-Awesome/issues/1905-->
-                        <button class="btn btn-xs btn-danger glyphicon glyphicon-remove pull-right" type="button" />
-                        <button class="btn btn-xs btn-default glyphicon glyphicon-edit pull-right" type="button" />
+                        <button class="btn btn-xs btn-danger glyphicon glyphicon-remove pull-right" type="button" ng-click="deleteItem(item)" />
+                        <button class="btn btn-xs btn-default glyphicon glyphicon-edit pull-right" type="button" ng-click="updateItem(item)" />
                         
                     </li>
                 </ul>
@@ -29,16 +29,16 @@
                         
                         <div class="form-group">
                             <label class="control-label" for="txtTaskId">Id</label>
-                            <input class="form-control" id="txtTaskId" type="text" />
+                            <input class="form-control" id="txtTaskId" type="text" readonly ng-model="activeItem.id"/>
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label" for="txtTaskDescription">Description</label>
-                            <input class="form-control" id="txtTaskDescription" type="text" />
+                            <input class="form-control" id="txtTaskDescription" type="text" ng-model="activeItem.description"/>
                         </div>
                         
                         <div class="form-group">
-                            <button class="btn btn-md btn-success glyphicon glyphicon-save pull-right" type="button"> Save</button>
+                            <button class="btn btn-md btn-success glyphicon glyphicon-save pull-right" type="button" ng-click="saveItem()"> Save</button>
                         </div>
                     </fieldset>
                 </form>

@@ -26,11 +26,15 @@
  */
 angular.module('App.Controllers')
 
-.controller('todoController', ['$scope','$log', 'Restangular',
-        function ($scope, $log, Restangular) {
+.controller('todoController', ['$scope','$log', 'Restangular', '$state',
+        function ($scope, $log, Restangular, $state) {
             $scope.name = 'Todo';
             
+            $scope.activeId = 10;
+            $scope.activeDescription = 'A description';
             //$scope.TaskList = [];
+            $scope.activeItem = {};
+            
             Restangular.all("taskData").getList().then(function(data){
                      $scope.TaskList = data;
                      
@@ -46,5 +50,37 @@ angular.module('App.Controllers')
                         // $log.log('Task: ' + $scope.TaskList[i]);
                      // }
             })
+            
+            
+            
+            $scope.saveItem = function(){
+                    console.log('Saving...');
+                    if($scope.activeItem){
+                            console.log($scope.activeItem);
+                        $scope.activeItem.save().then(function(){
+                                $scope.activeItem = null;
+                        },function(){
+                                console.log('Cannot be save');
+                        });
+                    }
+            }
+            
+            // The description doesn't go back to the original value if it's changed in the description box, although it's not been saved
+            
+            $scope.updateItem = function(item){
+                    console.log('Updating...');
+                    $scope.activeItem = item;
+            }
+            
+            $scope.deleteItem = function(item){
+                    console.log('Removing...');
+                    console.log(item);
+                    item.remove().then(function(){
+                            var index = $scope.TaskList.indexOf(item);
+                            if(index > -1){
+                                    $scope.TaskList.splice(index, 1);
+                            }
+                    });
+            }
         }
 ]);
