@@ -26,61 +26,76 @@
  */
 angular.module('App.Controllers')
 
-.controller('todoController', ['$scope','$log', 'Restangular', '$state',
-        function ($scope, $log, Restangular, $state) {
-            $scope.name = 'Todo';
+        .controller('todoController', ['$scope', '$log', 'Restangular', '$state',
+                function ($scope, $log, Restangular, $state) {
+                        $scope.name = 'Todo';
+                        $scope.activeItem = {};
+                        
+                        var currentItem = {};
+
+                        Restangular.all("taskData").getList().then(function (data) {
+                                $scope.TaskList = data;
+                                console.log($scope.TaskList);
+                        })
+
+                        $scope.saveItem = function () {
+                                console.log('Saving...');
+
+                                if (!angular.equals({}, $scope.activeItem) && $scope.activeItem != null) {
+                                        if ($scope.activeItem.id) {
+                                               $scope.activeItem.save();
+                                        } else {
+                                                addNewItem();
+                                        }
+
+                                        $scope.activeItem = null;
+
+                                        $state.reload();
+                                }
+                        }
+
+                        function addNewItem() {
+                                // Use Underscore library.
+                                var newId = _.max($scope.TaskList, function (task) {
+                                        return task.id;
+                                });
+
+                                $scope.activeItem.id = newId.id + 1;
+                                $scope.TaskList.push($scope.activeItem);
+                        }
             
-            $scope.activeId = 10;
-            $scope.activeDescription = 'A description';
-            //$scope.TaskList = [];
-            $scope.activeItem = {};
-            
-            Restangular.all("taskData").getList().then(function(data){
-                     $scope.TaskList = data;
-                     
-                     // ## Log objects
-                     
-                     // ## SLOW - http://stackoverflow.com/a/19425046
-                     // angular.forEach($scope.TaskList, function(key, value){
-                        //      $log.log('Task: ' + key);
-                     // })
-                     
-                     // ## FAST
-                     // for(var i = 0; i<$scope.TaskList.length; i++){
-                        // $log.log('Task: ' + $scope.TaskList[i]);
-                     // }
-            })
-            
-            
-            
-            $scope.saveItem = function(){
-                    console.log('Saving...');
-                    if($scope.activeItem){
-                            console.log($scope.activeItem);
-                        $scope.activeItem.save().then(function(){
-                                $scope.activeItem = null;
-                        },function(){
-                                console.log('Cannot be save');
-                        });
-                    }
-            }
-            
-            // The description doesn't go back to the original value if it's changed in the description box, although it's not been saved
-            
-            $scope.updateItem = function(item){
-                    console.log('Updating...');
-                    $scope.activeItem = item;
-            }
-            
-            $scope.deleteItem = function(item){
-                    console.log('Removing...');
-                    console.log(item);
-                    item.remove().then(function(){
-                            var index = $scope.TaskList.indexOf(item);
-                            if(index > -1){
-                                    $scope.TaskList.splice(index, 1);
-                            }
-                    });
-            }
-        }
-]);
+                        $scope.updateItem = function (item) {
+                                console.log('Updating...');
+                                
+                                currentItem = angular.copy(item);
+                                $scope.activeItem = item;
+                        }
+
+                        $scope.deleteItem = function (item) {
+                                console.log('Removing...');
+
+                                item.remove().then(function () {
+                                        var index = $scope.TaskList.indexOf(item);
+                                        if (index > -1) {
+                                                $scope.TaskList.splice(index, 1);
+                                        }
+
+                                        $state.reload();
+                                });
+                        }
+
+                        $scope.cancel = function () {
+                                console.log('Cancel...');
+
+                                if (!angular.equals({}, currentItem) && currentItem != null) {
+                                        var oldValueIndex = $scope.TaskList.indexOf($scope.activeItem);
+                                        $scope.TaskList[oldValueIndex] = currentItem;
+
+                                        $scope.activeItem = null;
+                                        currentItem = null;
+                                        $state.reload();
+                                }
+
+                        }
+                }
+        ]);

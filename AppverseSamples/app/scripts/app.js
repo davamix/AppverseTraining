@@ -2,6 +2,7 @@
     'use strict';
     angular.module('App.Controllers', []);
     angular.module('appversesamplesApp', [
+    'underscore',
         'appverse.rest',
         'ngAnimate',
         'ui.bootstrap',
@@ -13,7 +14,7 @@
         'chart.js',
         'appverse.router',
         'App.Controllers',
-        'appverse'
+        'appverse'        
     ]).run(function ($log) {
         $log.debug('appversesamplesApp run');
     });
