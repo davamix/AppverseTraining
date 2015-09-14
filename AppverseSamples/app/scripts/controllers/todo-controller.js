@@ -43,7 +43,7 @@ angular.module('App.Controllers')
 
                                 if (!angular.equals({}, $scope.activeItem) && $scope.activeItem != null) {
                                         if ($scope.activeItem.id) {
-                                               $scope.activeItem.save();
+                                               //$scope.activeItem.save();
                                         } else {
                                                 addNewItem();
                                         }
